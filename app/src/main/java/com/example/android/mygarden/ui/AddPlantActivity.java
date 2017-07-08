@@ -26,6 +26,7 @@ import android.widget.ImageView;
 
 import com.example.android.mygarden.R;
 import com.example.android.mygarden.provider.PlantContract;
+import com.example.android.mygarden.service.PlantWateringService;
 
 public class AddPlantActivity extends AppCompatActivity {
     private RecyclerView mTypesRecyclerView;
@@ -64,6 +65,10 @@ public class AddPlantActivity extends AppCompatActivity {
         contentValues.put(PlantContract.PlantEntry.COLUMN_CREATION_TIME, timeNow);
         contentValues.put(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME, timeNow);
         getContentResolver().insert(PlantContract.PlantEntry.CONTENT_URI, contentValues);
+
+        // Call to update the widgets - Add new plant
+        PlantWateringService.startActionUpdatePlantWidgets(this);
+
         // Close this activity
         finish();
     }

@@ -1,9 +1,14 @@
 package com.example.android.mygarden;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
+
+import com.example.android.mygarden.service.PlantWateringService;
+import com.example.android.mygarden.ui.MainActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -11,12 +16,32 @@ import android.widget.RemoteViews;
 public class PlantWidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+                                int imgRes, int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+//        CharSequence widgetText = context.getString(R.string.appwidget_text);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.plant_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        // update image
+        views.setImageViewResource(R.id.widget_plant_image, imgRes);
+
+        views.setOnClickPendingIntent(R.id.widget_plant_image, pendingIntent);
+
+        // Add the wateringservice click handler
+        Intent wateringIntent = new Intent(context, PlantWateringService.class);
+        wateringIntent.setAction(PlantWateringService.ACTION_WATER_PLANTS);
+        PendingIntent wateringPendingIntent = PendingIntent.getService(
+                context,
+                0,
+                wateringIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_water_button, wateringPendingIntent);
+
+//        views.setTextViewText(R.id.appwidget_text, widgetText);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -25,8 +50,14 @@ public class PlantWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+        PlantWateringService.startActionUpdatePlantWidgets(context);
+    }
+
+    // This is a static method - Which means we can call it from anywhere and pass parameters to it
+
+    public static void updatePlantWidgets(Context context, AppWidgetManager appWidgetManager, int imgRes, int [] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds ) {
+            updateAppWidget( context, appWidgetManager, imgRes, appWidgetId );
         }
     }
 

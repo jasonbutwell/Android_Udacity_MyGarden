@@ -11,7 +11,7 @@
         <provider
             android:name=".provider.PlantContentProvider"
             android:authorities="com.example.android.mygarden"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".ui.MainActivity"
@@ -38,6 +38,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/plant_widget_provider_info" />
         </receiver>
+
+        <service
+            android:name=".service.PlantWateringService"
+            android:exported="false" >
+        </service>
+
     </application>
 
 </manifest>
