@@ -35,14 +35,9 @@ public class PlantUtils {
     static final long JUVENILE_AGE = DAY_MILLISECONDS * 1; // 1 day old
     static final long FULLY_GROWN_AGE = DAY_MILLISECONDS * 2; // 2 days old
 
+    public enum PlantStatus {ALIVE, DYING, DEAD};
 
-    public enum PlantStatus {ALIVE, DYING, DEAD}
-
-    ;
-
-    public enum PlantSize {TINY, JUVENILE, FULLY_GROWN}
-
-    ;
+    public enum PlantSize {TINY, JUVENILE, FULLY_GROWN};
 
     /**
      * Returns the corresponding image resource of the plant given the plant's age and
