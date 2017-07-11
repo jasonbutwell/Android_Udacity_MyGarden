@@ -10,7 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 
 import com.example.android.mygarden.PlantWidgetProvider;
 import com.example.android.mygarden.R;
@@ -109,12 +111,14 @@ public class PlantWateringService extends IntentService {
         startActionUpdatePlantWidgets(this);    // update the widgets after data change
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void handleActionUpdatePlantWidgets() {
 
         boolean canWater = false; // Default to hide the water drop button
         long plantId = PlantContract.INVALID_PLANT_ID;
 
-//        Get plant that is most in need of water (close to dying)
+//      Get plant that is most in need of water (close to dying)
+
         Uri PLANT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build();
         Cursor cursor = getContentResolver().query(
                 PLANT_URI,
@@ -160,8 +164,12 @@ public class PlantWateringService extends IntentService {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int [] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(this, PlantWidgetProvider.class));
 
+        // Trigger data update to handle the GridView widgets and force a data refresh
+        // Notifies the GridView that the data has been changed
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.widget_grid_view);
+
         // Now update all widgets   - pass in the plant ID and the canWater boolean
         PlantWidgetProvider.updatePlantWidgets(this, appWidgetManager, imgRes, plantId, canWater, appWidgetIDs);
-
     }
 }
