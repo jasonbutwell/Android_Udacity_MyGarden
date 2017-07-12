@@ -11,10 +11,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
-import com.example.android.mygarden.PlantWidgetProvider;
+import com.example.android.mygarden.wiget.PlantWidgetProvider;
 import com.example.android.mygarden.R;
 import com.example.android.mygarden.provider.PlantContract;
 import com.example.android.mygarden.utils.PlantUtils;
@@ -71,6 +70,7 @@ public class PlantWateringService extends IntentService {
 
     // To handle this action we need to override onHandleIntent, where you can extract the action and handle each action type separately
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {

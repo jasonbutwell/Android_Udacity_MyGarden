@@ -1,4 +1,4 @@
-package com.example.android.mygarden;
+package com.example.android.mygarden.wiget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.example.android.mygarden.R;
 import com.example.android.mygarden.provider.PlantContract;
 import com.example.android.mygarden.service.GridWidgetService;
 import com.example.android.mygarden.service.PlantWateringService;

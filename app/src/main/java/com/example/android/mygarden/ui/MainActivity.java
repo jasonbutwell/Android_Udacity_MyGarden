@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.android.mygarden.R;
+import com.example.android.mygarden.adapter.PlantListAdapter;
 
 import static com.example.android.mygarden.provider.PlantContract.BASE_CONTENT_URI;
 import static com.example.android.mygarden.provider.PlantContract.PATH_PLANTS;

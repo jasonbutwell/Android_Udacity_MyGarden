@@ -23,8 +23,8 @@ import static com.example.android.mygarden.provider.PlantContract.PATH_PLANTS;
 
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    Context mContext;   // To access the content resolver
-    Cursor mCursor;     // To obtain plant data from database
+    private Context mContext;   // To access the content resolver
+    private Cursor mCursor;     // To obtain plant data from database
 
     GridRemoteViewsFactory(Context applicationContext) {
         mContext = applicationContext;
@@ -77,9 +77,9 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         if (mCursor == null || mCursor.getCount() == 0) return null;
 
-        // Move to first item in Cursor
+        // Move to the appropriate item in Cursor that position is pointing to
 
-        mCursor.moveToFirst();
+        mCursor.moveToPosition(position);
 
         // Column Indexes
         int idIndex = mCursor.getColumnIndex(PlantContract.PlantEntry._ID);
